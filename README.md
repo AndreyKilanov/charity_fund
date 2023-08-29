@@ -140,12 +140,12 @@ EMAIL = "cat_charity_fund@gmail.com"
 ---
 
 ### :high_brightness: Используемые технологии([requirements](https://github.com/AndyFebruary74/cat_charity_fund/blob/master/requirements.txt)):
-1. [x] Python 3.10
-2. [x] FastAPI 0.7.8
-3. [x] SQLAlchemy 1.4.36
-4. [x] Alembic 1.7.7
-5. [x] Uvicorn 0.17.6
-6. [x] Aiogoogle 4.2.0
+- [x] Python 3.10
+- [x] FastAPI 0.7.8
+- [x] SQLAlchemy 1.4.36
+- [x] Alembic 1.7.7
+- [x] Uvicorn 0.17.6
+- [x] Aiogoogle 4.2.0
 - [x] Google Cloud Platform
   - [x] Google Sheets API
   - [x] Google Docs API
