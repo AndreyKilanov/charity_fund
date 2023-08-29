@@ -1,4 +1,4 @@
-# :smile_cat: "Благотворительный фонд поддержки котиков" :smile_cat:
+## :smile_cat: "Благотворительный фонд поддержки котиков" :smile_cat:
 
 ![](https://github.com/AndyFebruary74/cat_charity_fund/blob/master/cat.jpg "cat charity fund")
 
@@ -98,7 +98,7 @@ uvicorn main:app
 ```
 
 ---
-### Документация 
+### :scroll: Документация 
 
 После запуска документация API доступна по адресу `http://127.0.0.1:8000` 
 
@@ -108,7 +108,7 @@ uvicorn main:app
 
 ---
 
-### .env
+### :high_brightness: .env
 
 `cat_charity_fund\.env` - расположение
 
