@@ -21,6 +21,7 @@
 набирает необходимую сумму и закрывается — пожертвования начинают поступать в
 следующий проект.
 
+
 ### Пожертвования
 
 Каждый пользователь может сделать пожертвование и сопроводить его комментарием.
@@ -33,7 +34,8 @@
 
 ### Пользователи
 
-Целевые проекты создаются администраторами сайта. 
+Целевые проекты создаются администраторами сайта. Так же администраторы могут
+выгружать закрытые проекты в гугл таблицу.  
 Любой пользователь может видеть список всех проектов, включая требуемые и уже
 внесенные суммы. Это касается всех проектов — и открытых, и закрытых.
 Зарегистрированные пользователи могут отправлять пожертвования и просматривать 
@@ -113,10 +115,26 @@ uvicorn main:app
 #### Example:
 
 ```
+#project settings
 APP_TITLE=DEFAULT TITLE
 APP_DESCRIPTION=DEFAULT DESCRIPTION
 DATABASE_URL=sqlite+aiosqlite:///./cat_charity_fund.db
 SECRET=DEFAULT SECRET KEY
+
+# google cloud settings
+TYPE = "service_account"
+PROJECT_ID = "symbolic-base-00000"
+PRIVATE_KEY_ID = "00000000000000000000000000000000"
+PRIVATE_KEY = "-----BEGIN PRIVATE KEY-----"
+CLIENT_EMAIL = "my-first-service-account@symbolic-base-000000.iam.gserviceaccount.com"
+CLIENT_ID = "12345678901234567890"
+AUTH_URI = "https://accounts.google.com/o/oauth2/auth"
+TOKEN_URI = "https://oauth2.googleapis.com/token"
+AUTH_PROVIDER_X509_CERT_URL = "https://www.googleapis.com/oauth2/v1/certs"
+CLIENT_X509_CERT_URL = "https://www.googleapis.com/robot/v1/metadata/x509/my-first-service-account%40symbolic-base-000000.iam.gserviceaccount.com"
+
+# google account
+EMAIL = "cat_charity_fund@gmail.com"
 ```
 
 ---
@@ -127,6 +145,10 @@ SECRET=DEFAULT SECRET KEY
 3. [x] SQLAlchemy 1.4.36
 4. [x] Alembic 1.7.7
 5. [x] Uvicorn 0.17.6
+6. [x] Aiogoogle 4.2.0
+7. [x] Google Cloud Platform
+8. [x] Google Sheets API
+9. [x] Google Docs API
 
 ---
 
