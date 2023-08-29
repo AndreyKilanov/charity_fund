@@ -108,7 +108,7 @@ uvicorn main:app
 
 ---
 
-### :high_brightness: .env
+### :lock: .env
 
 `cat_charity_fund\.env` - расположение
 
@@ -139,7 +139,7 @@ EMAIL = "cat_charity_fund@gmail.com"
 
 ---
 
-### Используемые технологии([requirements](https://github.com/AndyFebruary74/cat_charity_fund/blob/master/requirements.txt)):
+### :high_brightness: Используемые технологии([requirements](https://github.com/AndyFebruary74/cat_charity_fund/blob/master/requirements.txt)):
 1. [x] Python 3.10
 2. [x] FastAPI 0.7.8
 3. [x] SQLAlchemy 1.4.36
