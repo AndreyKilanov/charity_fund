@@ -1,4 +1,4 @@
-# Сервис "Благотворительный фонд поддержки котиков"
+# :smile_cat: Сервис "Благотворительный фонд поддержки котиков" :smile_cat:
 
 ![](https://github.com/AndyFebruary74/cat_charity_fund/blob/master/cat.jpg "cat charity fund")
 
