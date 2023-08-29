@@ -146,9 +146,9 @@ EMAIL = "cat_charity_fund@gmail.com"
 4. [x] Alembic 1.7.7
 5. [x] Uvicorn 0.17.6
 6. [x] Aiogoogle 4.2.0
-7. [x] Google Cloud Platform
-8. [x] Google Sheets API
-9. [x] Google Docs API
+- [x] Google Cloud Platform
+  - [x] Google Sheets API
+  - [x] Google Docs API
 
 ---
 
