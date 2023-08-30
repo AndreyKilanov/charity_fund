@@ -1,17 +1,19 @@
 import copy
 from datetime import datetime
+from typing import List, Any
 
 from aiogoogle import Aiogoogle
 
 from app.core.config import settings
 
 FORMAT = "%Y/%m/%d %H:%M:%S"
+MAX_CELLS = 26000
+VALUE_ERROR_MESSAGE = 'Превышено допустимое кол-во ячеек!'
 TABLE_VALUES = [
     ['Отчет от'],
     ['Топ проектов по скорости закрытия'],
     ['Название проекта', 'Время сбора', 'Описание']
 ]
-COLUMN = max(map(len, TABLE_VALUES))
 SPREADSHEET_BODY = dict(
     properties=dict(
         title='Отчет от ',
@@ -25,7 +27,7 @@ SPREADSHEET_BODY = dict(
                 title='Лист1',
                 gridProperties=dict(
                     rowCount=0,
-                    columnCount=COLUMN
+                    columnCount=0
                 )
             )
         )
@@ -36,17 +38,26 @@ SPREADSHEET_BODY = dict(
 async def spreadsheets_create(
         projects: list,
         wrapper_services: Aiogoogle
-) -> tuple[str, str, int]:
-    row = len(projects) + len(TABLE_VALUES)
+) -> list[int | Any]:
     service = await wrapper_services.discover('sheets', 'v4')
     spreadsheet_body = copy.deepcopy(SPREADSHEET_BODY)
+    count_rows = len(projects) + len(TABLE_VALUES)
+    count_columns = max(map(len, TABLE_VALUES))
+    if (count_rows*count_columns) > MAX_CELLS:
+        raise ValueError(VALUE_ERROR_MESSAGE)
     spreadsheet_body['properties']['title'] += datetime.now().strftime(FORMAT)
-    spreadsheet_body['sheets'][0]['properties']['gridProperties'][
-        'rowCount'] = row
+    spreadsheet_body['sheets'][0]['properties']['gridProperties'].update(
+        dict(rowCount=count_rows, columnCount=count_columns)
+    )
     response = await wrapper_services.as_service_account(
         service.spreadsheets.create(json=spreadsheet_body)
     )
-    return response['spreadsheetId'], response['spreadsheetUrl'], row
+    return [
+        response['spreadsheetId'],
+        response['spreadsheetUrl'],
+        count_rows,
+        count_columns
+    ]
 
 
 async def set_user_permissions(
@@ -71,7 +82,8 @@ async def set_user_permissions(
 async def spreadsheets_update_value(
         spreadsheet_id: str,
         projects: list,
-        row: int,
+        count_rows: int,
+        count_columns: int,
         wrapper_services: Aiogoogle
 ) -> None:
     service = await wrapper_services.discover('sheets', 'v4')
@@ -82,11 +94,11 @@ async def spreadsheets_update_value(
             [res.name, (res.close_date - res.create_date), res.description])
         )for res in projects]
     ]
-    table_value[0].append(datetime.now().__format__(FORMAT))
+    table_value[0].append(datetime.now().strftime(FORMAT))
     await wrapper_services.as_service_account(
         service.spreadsheets.values.update(
             spreadsheetId=spreadsheet_id,
-            range=f'R1C1:R{row}C{COLUMN}',
+            range=f'R1C1:R{count_rows}C{count_columns}',
             valueInputOption='USER_ENTERED',
             json=dict(majorDimension='ROWS', values=table_value)
         )
