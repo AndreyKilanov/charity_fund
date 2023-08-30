@@ -43,7 +43,7 @@ async def spreadsheets_create(
     spreadsheet_body = copy.deepcopy(SPREADSHEET_BODY)
     count_rows = len(projects) + len(TABLE_VALUES)
     count_columns = max(map(len, TABLE_VALUES))
-    if (count_rows*count_columns) > MAX_CELLS:
+    if (count_rows * count_columns) > MAX_CELLS:
         raise ValueError(VALUE_ERROR_MESSAGE)
     spreadsheet_body['properties']['title'] += datetime.now().strftime(FORMAT)
     spreadsheet_body['sheets'][0]['properties']['gridProperties'].update(
