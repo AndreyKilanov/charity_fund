@@ -38,7 +38,7 @@ SPREADSHEET_BODY = dict(
 async def spreadsheets_create(
         projects: list,
         wrapper_services: Aiogoogle
-) -> list[Optional[int, Any]]:
+) -> list[Optional[int]]:
     service = await wrapper_services.discover('sheets', 'v4')
     spreadsheet_body = copy.deepcopy(SPREADSHEET_BODY)
     count_rows = len(projects) + len(TABLE_VALUES)
