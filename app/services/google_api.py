@@ -1,3 +1,4 @@
+import copy
 from datetime import datetime
 
 from aiogoogle import Aiogoogle
@@ -5,70 +6,88 @@ from aiogoogle import Aiogoogle
 from app.core.config import settings
 
 FORMAT = "%Y/%m/%d %H:%M:%S"
-NOW_DATE_TIME = datetime.now().strftime(FORMAT)
+TABLE_VALUES = [
+    ['Отчет от'],
+    ['Топ проектов по скорости закрытия'],
+    ['Название проекта', 'Время сбора', 'Описание']
+]
+COLUMN = max(map(len, TABLE_VALUES))
+SPREADSHEET_BODY = dict(
+    properties=dict(
+        title='Отчет от ',
+        locale='ru_RU',
+    ),
+    sheets=[
+        dict(
+            properties=dict(
+                sheetType='GRID',
+                sheetId=0,
+                title='Лист1',
+                gridProperties=dict(
+                    rowCount=0,
+                    columnCount=COLUMN
+                )
+            )
+        )
+    ]
+)
 
 
-async def spreadsheets_create(wrapper_services: Aiogoogle) -> str:
+async def spreadsheets_create(
+        projects: list,
+        wrapper_services: Aiogoogle
+) -> tuple[str, str, int]:
+    row = len(projects) + len(TABLE_VALUES)
     service = await wrapper_services.discover('sheets', 'v4')
-    spreadsheet_body = {
-        'properties': {'title': f'Отчет от {NOW_DATE_TIME}',
-                       'locale': 'ru_RU'},
-        'sheets': [{'properties': {'sheetType': 'GRID',
-                                   'sheetId': 0,
-                                   'title': 'Лист1',
-                                   'gridProperties': {'rowCount': 200,
-                                                      'columnCount': 10}}}]
-    }
+    spreadsheet_body = copy.deepcopy(SPREADSHEET_BODY)
+    spreadsheet_body['properties']['title'] += datetime.now().strftime(FORMAT)
+    spreadsheet_body['sheets'][0]['properties']['gridProperties'][
+        'rowCount'] = row
     response = await wrapper_services.as_service_account(
         service.spreadsheets.create(json=spreadsheet_body)
     )
-    spreadsheet_id = response['spreadsheetId']
-    return spreadsheet_id
+    return response['spreadsheetId'], response['spreadsheetUrl'], row
 
 
 async def set_user_permissions(
-        spreadsheetid: str,
+        spreadsheet_id: str,
         wrapper_services: Aiogoogle
 ) -> None:
-    permissions_body = {'type': 'user',
-                        'role': 'writer',
-                        'emailAddress': settings.email}
+    permissions_body = dict(
+        type='user',
+        role='writer',
+        emailAddress=settings.email
+    )
     service = await wrapper_services.discover('drive', 'v3')
     await wrapper_services.as_service_account(
         service.permissions.create(
-            fileId=spreadsheetid,
+            fileId=spreadsheet_id,
             json=permissions_body,
             fields="id"
-        ))
+        )
+    )
 
 
 async def spreadsheets_update_value(
-        spreadsheetid: str,
+        spreadsheet_id: str,
         projects: list,
+        row: int,
         wrapper_services: Aiogoogle
 ) -> None:
     service = await wrapper_services.discover('sheets', 'v4')
-    table_values = [
-        ['Отчет от', NOW_DATE_TIME],
-        ['Топ проектов по скорости закрытия'],
-        ['Название проекта', 'Время сбора', 'Описание']
+    table_value = [
+        *copy.deepcopy(TABLE_VALUES),
+        *[list(map(
+            str,
+            [res.name, (res.close_date - res.create_date), res.description])
+        )for res in projects]
     ]
-    for res in projects:
-        new_row = [
-            str(res.name),
-            str(res.close_date - res.create_date),
-            str(res.description)
-        ]
-        table_values.append(new_row)
-    update_body = {
-        'majorDimension': 'ROWS',
-        'values': table_values
-    }
+    table_value[0].append(datetime.now().__format__(FORMAT))
     await wrapper_services.as_service_account(
         service.spreadsheets.values.update(
-            spreadsheetId=spreadsheetid,
-            range='A1:E30',
+            spreadsheetId=spreadsheet_id,
+            range=f'R1C1:R{row}C{COLUMN}',
             valueInputOption='USER_ENTERED',
-            json=update_body
+            json=dict(majorDimension='ROWS', values=table_value)
         )
     )
