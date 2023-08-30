@@ -1,6 +1,6 @@
 import copy
 from datetime import datetime
-from typing import Any
+from typing import Any, Optional
 
 from aiogoogle import Aiogoogle
 
@@ -38,7 +38,7 @@ SPREADSHEET_BODY = dict(
 async def spreadsheets_create(
         projects: list,
         wrapper_services: Aiogoogle
-) -> list[int | Any]:
+) -> list[Optional[int, Any]]:
     service = await wrapper_services.discover('sheets', 'v4')
     spreadsheet_body = copy.deepcopy(SPREADSHEET_BODY)
     count_rows = len(projects) + len(TABLE_VALUES)
