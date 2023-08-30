@@ -1,6 +1,6 @@
 import copy
 from datetime import datetime
-from typing import Any, Optional
+from typing import Optional
 
 from aiogoogle import Aiogoogle
 
