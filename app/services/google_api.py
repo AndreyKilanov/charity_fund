@@ -1,6 +1,6 @@
 import copy
 from datetime import datetime
-from typing import List, Any
+from typing import Any
 
 from aiogoogle import Aiogoogle
 
