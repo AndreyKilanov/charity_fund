@@ -1,6 +1,9 @@
 ## :smile_cat: "Благотворительный фонд поддержки котиков" :smile_cat:
 
-![](https://github.com/AndyFebruary74/cat_charity_fund/blob/master/cat.jpg "cat charity fund")
+<p align="center">
+  <img src="https://github.com/AndyFebruary74/cat_charity_fund/blob/master/cat.jpg"
+    alt="cat fund"/>
+</p>
 
 ---
 
@@ -43,9 +46,12 @@
 
 ---
 
+### :hammer_and_wrench: Как пользоваться: 
 
+<details> 
+<summary> <b>Инструкция</b> </summary>
+<br>
 
-### :hammer_and_wrench: Как пользоваться:
 Клонировать репозиторий и перейти в него в командной строке:
 
 ```
@@ -96,6 +102,8 @@ alembic upgrade head
 ```
 uvicorn main:app
 ```
+
+</details>
 
 ---
 ### :scroll: Документация 

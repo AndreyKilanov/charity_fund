@@ -28,7 +28,7 @@ router = APIRouter()
     response_model_exclude_none=True,
     dependencies=[Depends(current_superuser)],
 )
-async def crate_charity_project(
+async def create_charity_project(
         charity_project: CharityProjectCreate,
         session: AsyncSession = Depends(get_async_session),
 ):
