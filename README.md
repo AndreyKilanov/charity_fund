@@ -46,7 +46,7 @@
 
 ---
 
-### :hammer_and_wrench: Как пользоваться: 
+### :hammer_and_wrench: Как пользоваться 
 
 <details> 
 <summary> <b>Инструкция</b> </summary>
