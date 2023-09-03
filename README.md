@@ -119,8 +119,9 @@ uvicorn main:app
 ### :lock: .env
 
 `cat_charity_fund\.env` - расположение
-
-#### Example:
+<details> 
+<summary> <b>Example</b> </summary>
+<br>
 
 ```
 #project settings
@@ -144,6 +145,7 @@ CLIENT_X509_CERT_URL = "https://www.googleapis.com/robot/v1/metadata/x509/my-fir
 # google account
 EMAIL = "cat_charity_fund@gmail.com"
 ```
+</details> 
 
 ---
 
