@@ -55,11 +55,11 @@
 Клонировать репозиторий и перейти в него в командной строке:
 
 ```
-git clone https://github.com/AndyFebruary74/cat_charity_fund
+git clone https://github.com/AndyFebruary74/charity_fund
 ```
 
 ```
-cd cat_charity_fund
+cd charity_fund
 ```
 
 Cоздать и активировать виртуальное окружение:
